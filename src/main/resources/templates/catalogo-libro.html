@@ -3,112 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <title>Catálogo de Libros</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Merriweather:wght@700&display=swap" rel="stylesheet">
     <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
-        }
-        th {
-            background-color: #f4f4f4;
-            color: #333;
-        }
-        .actions {
-            width: 200px;
-        }
-        .action-buttons {
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #faf3e0; /* Color crema claro */
+            color: #5d4037; /* Color marrón oscuro */
+            line-height: 1.6;
             display: flex;
-            gap: 10px;
+            flex-direction: column;
+            min-height: 100vh;
         }
-        button {
-            padding: 8px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
+
+        h1, h2 {
+            color: #5d4037; /* Color marrón oscuro */
+            font-family: 'Merriweather', serif;
         }
-        .edit-btn {
-            background-color: #4CAF50;
-            color: white;
-        }
-        .delete-btn {
-            background-color: #f44336;
-            color: white;
-        }
-        .add-btn {
-            background-color: #008CBA;
-            color: white;
+
+        h1 {
+            font-size: 2.5em;
             margin-bottom: 20px;
         }
-        .home-btn {
-            background-color: #2196F3;
+
+        /* Header */
+        header {
+            background-color: #8d6e63; /* Color marrón cálido */
             color: white;
-            margin-top: 20px;
-            padding: 10px 20px;
+            text-align: center;
+            padding: 60px 0;
         }
-        .price {
-            white-space: nowrap;
+
+        header h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 3.2em;
+            margin-bottom: 15px;
+        }
+
+        header p {
+            font-size: 1.2em;
+            font-weight: 400;
+        }
+
+        /* Slider */
+        .slider-container {
+            display: flex;
+            overflow: hidden;
+            width: 100%;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        .slider {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .slider-item {
+            background-color: white;
+            border-radius: 10px;
+            margin-right: 20px;
+            padding: 20px;
+            width: 250px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .slider-item h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.8em;
+            color: #3e2723;
+        }
+
+        .slider-item p {
+            margin-top: 10px;
+            color: #6d4c41;
+        }
+
+        .slider-item div {
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px; /* Aumentar el espacio entre los botones */
+        }
+
+        /* Buttons */
+        .button {
+            background-color: #f7f3e0; /* Color crema */
+            border: 2px solid #3e2723;
+            color: #3e2723;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            font-weight: bold; /* Texto en negrita */
+        }
+
+        .button:hover {
+            background-color: #3e2723;
+            color: #f7f3e0;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #3e2723; /* Color marrón oscuro */
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+            font-weight: 300;
+            margin-top: auto; /* Para mantener el footer en la parte inferior */
+        }
+
+        footer a {
+            color: #faf3e0; /* Color crema claro */
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Add margin to the main buttons */
+        .main-button {
+            margin: 40px 20px 20px 20px; /* Más separación superior y lateral */
         }
     </style>
 </head>
 <body>
-<h1>Catálogo de Libros</h1>
 
-<div style="margin-bottom: 20px;">
+<header>
+    <h1>Catálogo de Libros</h1>
+    <p>Descubre nuestra amplia selección de libros para todos los gustos.</p>
+</header>
+
+<div style="margin-bottom: 20px; text-align: center;">
     <a th:href="@{/crearLibro}">
-        <button class="add-btn" type="button">Añadir Nuevo Libro</button>
+        <button class="button main-button" type="button">Añadir Nuevo Libro</button>
     </a>
 </div>
 
-<table>
-    <thead>
-    <tr>
-        <th>Título</th>
-        <th>Autor</th>
-        <th>ISBN</th>
-        <th>Editorial</th>
-        <th>Precio</th>
-        <th class="actions">Acciones</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="book : ${listadoLibros}">
-        <td th:text="${book.title}"></td>
-        <td th:text="${book.author}"></td>
-        <td th:text="${book.isbn}"></td>
-        <td th:text="${book.publisher}"></td>
-        <td class="price" th:text="${#numbers.formatDecimal(book.price, 1, 2) + ' €'}"></td>
-        <td>
-            <div class="action-buttons">
+<div class="slider-container">
+    <div class="slider" id="slider">
+        <div class="slider-item" th:each="book : ${listadoLibros}">
+            <h2 th:text="${book.title}"></h2>
+            <p th:text="'Autor: ' + ${book.author}"></p>
+            <p th:text="'ISBN: ' + ${book.isbn}"></p>
+            <p th:text="'Editorial: ' + ${book.publisher}"></p>
+            <p th:text="'Precio: ' + ${#numbers.formatDecimal(book.price, 1, 2) + ' €'}"></p>
+            <div>
                 <a th:href="@{/editarLibro/{id}(id=${book.id})}">
-                    <button class="edit-btn" type="button">Editar</button>
+                    <button class="button">Editar</button>
                 </a>
                 <form th:action="@{/borrarLibro/{id}(id=${book.id})}" method="post" style="display: inline;"
                       onsubmit="return confirmDeletion()">
                     <input type="hidden" name="_method" value="delete"/>
-                    <button class="delete-btn" type="submit">Eliminar</button>
+                    <button class="button">Eliminar</button>
                 </form>
             </div>
-        </td>
-    </tr>
-    </tbody>
-
-    <script>
-        function confirmDeletion() {
-            return confirm('¿Estás seguro de que deseas eliminar este libro?');
-        }
-    </script>
-</table>
+        </div>
+    </div>
+</div>
 
 <div style="text-align: center; margin-top: 30px;">
     <a href="/" th:href="@{/}">
-        <button class="home-btn">Volver a la Página Principal</button>
+        <button class="button main-button">Volver a la Página Principal</button>
     </a>
 </div>
+
+<footer>
+    <p>&copy; 2025 Tienda Online. Todos los derechos reservados.</p>
+    <p><a href="#">Política de privacidad</a> | <a href="#">Términos y condiciones</a></p>
+</footer>
+
+<script>
+    function confirmDeletion() {
+        return confirm('¿Estás seguro de que deseas eliminar este libro?');
+    }
+</script>
+
 </body>
 </html>

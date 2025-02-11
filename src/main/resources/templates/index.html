@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tienda Online</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Merriweather:wght@700&display=swap" rel="stylesheet">
     <style>
         /* General Reset */
         * {
@@ -13,31 +14,33 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
+            font-family: 'Roboto', sans-serif;
+            background-color: #faf3e0; /* Color crema claro */
+            color: #5d4037; /* Color marrón oscuro */
             line-height: 1.6;
         }
 
         h1, h2 {
-            color: #333;
+            color: #5d4037; /* Color marrón oscuro */
         }
 
         /* Header */
         header {
-            background-color: #000;
+            background-color: #8d6e63; /* Color marrón cálido */
             color: white;
             text-align: center;
-            padding: 50px 0;
+            padding: 60px 0;
         }
 
         header h1 {
-            font-size: 3em;
-            margin-bottom: 10px;
+            font-family: 'Merriweather', serif;
+            font-size: 3.2em;
+            margin-bottom: 15px;
         }
 
         header p {
             font-size: 1.2em;
+            font-weight: 400;
         }
 
         /* Main Section */
@@ -51,34 +54,37 @@
 
         .category {
             background-color: white;
-            border-radius: 10px;
+            border-radius: 15px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             width: 30%;
             padding: 20px;
             transition: transform 0.3s ease-in-out;
+            text-align: center;
         }
 
-        /* Ajustar el tamaño de las imágenes a 60px por 60px (como un ícono) */
         .category img {
-            width: 60px;
-            height: 60px;
+            width: 80px;
+            height: 80px;
             object-fit: contain;
             margin-bottom: 15px;
         }
 
         .category h2 {
-            margin-top: 20px;
-            font-size: 1.5em;
+            margin-top: 15px;
+            font-family: 'Merriweather', serif;
+            font-size: 1.8em;
+            color: #3e2723;
         }
 
         .category p {
             margin-top: 10px;
             font-size: 1em;
+            color: #6d4c41;
         }
 
         .category:hover {
             transform: translateY(-10px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
         }
 
         /* Buttons */
@@ -91,25 +97,23 @@
             padding: 0;
         }
 
-        .button img {
-            width: 60px;
-            height: 60px;
-            object-fit: contain;
-            margin-bottom: 10px;
-        }
-
         /* Footer */
         footer {
-            background-color: #000;
+            background-color: #3e2723; /* Color marrón oscuro */
             color: white;
             text-align: center;
             padding: 20px;
             font-size: 0.9em;
+            font-weight: 300;
         }
 
         footer a {
-            color: #fff;
+            color: #faf3e0; /* Color crema claro */
             text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
