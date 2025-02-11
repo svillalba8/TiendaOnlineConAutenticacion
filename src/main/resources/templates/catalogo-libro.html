@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Catálogo de Libros</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .actions {
+            width: 200px;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .edit-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .delete-btn {
+            background-color: #f44336;
+            color: white;
+        }
+        .add-btn {
+            background-color: #008CBA;
+            color: white;
+            margin-bottom: 20px;
+        }
+        .home-btn {
+            background-color: #2196F3;
+            color: white;
+            margin-top: 20px;
+            padding: 10px 20px;
+        }
+        .price {
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+<h1>Catálogo de Libros</h1>
+
+<div style="margin-bottom: 20px;">
+    <a th:href="@{/crearLibro}">
+        <button class="add-btn" type="button">Añadir Nuevo Libro</button>
+    </a>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>Título</th>
+        <th>Autor</th>
+        <th>ISBN</th>
+        <th>Editorial</th>
+        <th>Precio</th>
+        <th class="actions">Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book : ${listadoLibros}">
+        <td th:text="${book.title}"></td>
+        <td th:text="${book.author}"></td>
+        <td th:text="${book.isbn}"></td>
+        <td th:text="${book.publisher}"></td>
+        <td class="price" th:text="${#numbers.formatDecimal(book.price, 1, 2) + ' €'}"></td>
+        <td>
+            <div class="action-buttons">
+                <a th:href="@{/editarLibro/{id}(id=${book.id})}">
+                    <button class="edit-btn" type="button">Editar</button>
+                </a>
+                <form th:action="@{/borrarLibro/{id}(id=${book.id})}" method="post" style="display: inline;"
+                      onsubmit="return confirmDeletion()">
+                    <input type="hidden" name="_method" value="delete"/>
+                    <button class="delete-btn" type="submit">Eliminar</button>
+                </form>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+
+    <script>
+        function confirmDeletion() {
+            return confirm('¿Estás seguro de que deseas eliminar este libro?');
+        }
+    </script>
+</table>
+
+<div style="text-align: center; margin-top: 30px;">
+    <a href="/" th:href="@{/}">
+        <button class="home-btn">Volver a la Página Principal</button>
+    </a>
+</div>
+</body>
+</html>

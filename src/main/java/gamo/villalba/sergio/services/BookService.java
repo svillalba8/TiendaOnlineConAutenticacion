@@ -26,6 +26,10 @@ public class BookService {
         return bookRepository.save(book);
     }
 
+    public BookModel updateBook(BookModel book) {
+        return bookRepository.save(book);
+    }
+
     public boolean delete(long id) {
         try {
             bookRepository.deleteById(id);

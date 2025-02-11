@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Libro</title>
+    <style>
+        .form-container { max-width: 600px; margin: 20px auto; padding: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; }
+        input { width: 100%; padding: 8px; }
+        .button-group { display: flex; gap: 10px; }
+    </style>
+</head>
+<body>
+<div class="form-container">
+    <h1>Editar Libro</h1>
+    <form th:action="@{/editarLibro/{id}(id=${libro.id})}" th:object="${libro}" method="post">
+
+        <div class="form-group">
+            <label>ID:</label>
+            <input type="text" th:field="*{id}" readonly>
+        </div>
+
+        <div class="form-group">
+            <label>Título:</label>
+            <input type="text" th:field="*{title}" required>
+        </div>
+
+        <div class="form-group">
+            <label>Autor:</label>
+            <input type="text" th:field="*{author}" required>
+        </div>
+
+        <div class="form-group">
+            <label>ISBN:</label>
+            <input type="text" th:field="*{isbn}" required>
+        </div>
+
+        <div class="form-group">
+            <label>Editorial:</label>
+            <input type="text" th:field="*{publisher}">
+        </div>
+
+        <div class="form-group">
+            <label>Precio (€):</label>
+            <input type="number" th:field="*{price}" step="0.01" required>
+        </div>
+
+        <div class="button-group">
+            <button type="submit">Confirmar Actualización</button>
+            <button type="reset">Limpiar Campos</button>
+
+            <a href="/" th:href="@{/}">
+                <button class="home-btn">Cancelar</button>
+            </a>
+        </div>
+    </form>
+</div>
+</body>
+</html>
