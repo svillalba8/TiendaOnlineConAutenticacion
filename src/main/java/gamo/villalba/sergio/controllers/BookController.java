@@ -29,7 +29,7 @@ public class BookController {
     @PostMapping
     public BookModel createBook(@RequestBody BookModel book) {
         if (bookService.getBooks().contains(book)) return null;
-        else  return bookService.addBook(book);
+        else return bookService.addBook(book);
     }
 
     @DeleteMapping("/{id}")

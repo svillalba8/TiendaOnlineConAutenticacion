@@ -24,11 +24,11 @@ public class BookService {
 
     public ArrayList<BookModel> findBooks(String title, String author, String isbn, String publisher) {
         return new ArrayList<>(getBooks().stream()
-                .filter(libro ->
-                        (title == null || title.isEmpty() || libro.getTitle().toLowerCase().contains(title.toLowerCase())) &&
-                        (author == null || author.isEmpty() || libro.getAuthor().toLowerCase().contains(author.toLowerCase())) &&
-                        (isbn == null || isbn.isEmpty() || libro.getIsbn().equals(isbn)) &&
-                        (publisher == null || publisher.isEmpty() || libro.getPublisher().toLowerCase().contains(publisher.toLowerCase())))
+                .filter(book ->
+                        (title == null || title.isEmpty() || book.getTitle().toLowerCase().contains(title.toLowerCase())) &&
+                        (author == null || author.isEmpty() || book.getAuthor().toLowerCase().contains(author.toLowerCase())) &&
+                        (isbn == null || isbn.isEmpty() || book.getIsbn().equals(isbn)) &&
+                        (publisher == null || publisher.isEmpty() || book.getPublisher().toLowerCase().contains(publisher.toLowerCase())))
                 .toList());
 
     }
