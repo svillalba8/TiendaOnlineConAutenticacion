@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Crear Nuevo Libro</title>
+    <title>Editar Libro</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Merriweather:wght@700&display=swap" rel="stylesheet">
     <style>
         /* General Reset */
@@ -21,7 +21,6 @@
 
         h1, h2 {
             color: #5d4037; /* Color marrón oscuro */
-            font-family: 'Merriweather', serif;
         }
 
         /* Header */
@@ -33,6 +32,7 @@
         }
 
         header h1 {
+            font-family: 'Merriweather', serif;
             font-size: 3.2em;
             margin-bottom: 15px;
         }
@@ -48,11 +48,10 @@
             margin: 20px auto;
             padding: 20px;
             background-color: white;
-            border-radius: 10px;
+            border-radius: 15px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
-        /* Form Group */
         .form-group {
             margin-bottom: 15px;
         }
@@ -60,50 +59,42 @@
         label {
             display: block;
             margin-bottom: 5px;
-            font-size: 1.1em;
             font-weight: 500;
         }
 
         input {
             width: 100%;
-            padding: 8px;
+            padding: 10px;
             border: 2px solid #8d6e63; /* Color marrón cálido */
-            border-radius: 4px;
+            border-radius: 5px;
             font-size: 1em;
+            margin-bottom: 10px;
         }
 
-        /* Buttons */
-        .btn-container {
+        input:focus {
+            border-color: #3e2723; /* Color marrón oscuro */
+        }
+
+        .button-group {
             display: flex;
+            justify-content: space-between;
             gap: 10px;
-            margin-top: 20px;
         }
 
-        button {
+        .button {
+            background-color: #f7f3e0; /* Color crema */
+            border: 2px solid #3e2723;
+            color: #3e2723;
             padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
+            border-radius: 5px;
+            font-size: 1em;
             cursor: pointer;
-            font-weight: bold;
-            width: 100%;
+            transition: background-color 0.3s, color 0.3s;
         }
 
-        .submit-btn {
-            background-color: #4CAF50; /* Verde */
-            color: white;
-            font-size: 1.1em;
-        }
-
-        .reset-btn {
-            background-color: #FFC107; /* Amarillo */
-            color: black;
-            font-size: 1.1em;
-        }
-
-        .cancel-btn {
-            background-color: #F44336; /* Rojo */
-            color: white;
-            font-size: 1.1em;
+        .button:hover {
+            background-color: #3e2723;
+            color: #f7f3e0;
         }
 
         /* Footer */
@@ -129,12 +120,17 @@
 <body>
 
 <header>
-    <h1>Crear Nuevo Libro</h1>
-    <p>Completa los datos del libro para agregarlo a nuestro catálogo.</p>
+    <h1>Editar Libro</h1>
+    <p>Actualiza los detalles de tu libro en nuestro catálogo.</p>
 </header>
 
 <div class="form-container">
-    <form th:action="@{/crearLibro}" th:object="${libro}" method="post">
+    <form th:action="@{/editarLibro/{id}(id=${libro.id})}" th:object="${libro}" method="post">
+        <div class="form-group">
+            <label>ID:</label>
+            <input type="text" th:field="*{id}" readonly>
+        </div>
+
         <div class="form-group">
             <label>Título:</label>
             <input type="text" th:field="*{title}" required>
@@ -160,11 +156,11 @@
             <input type="number" th:field="*{price}" step="0.01" required>
         </div>
 
-        <div class="btn-container">
-            <button type="submit" class="submit-btn">Confirmar Creación</button>
-            <button type="reset" class="reset-btn">Limpiar Campos</button>
-            <a href="/" th:href="@{/}">
-                <button type="button" class="cancel-btn">Cancelar</button>
+        <div class="button-group">
+            <button type="submit" class="button">Confirmar Actualización</button>
+            <button type="reset" class="button">Limpiar Campos</button>
+            <a href="/catalogoLibro" th:href="@{/catalogoLibro}">
+                <button type="button" class="button">Cancelar</button>
             </a>
         </div>
     </form>

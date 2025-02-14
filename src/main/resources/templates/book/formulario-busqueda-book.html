@@ -36,20 +36,24 @@
             width: 100%;
         }
 
-        .back-button {
+        .back-button, .main-menu-button {
             background-color: #8d6e63;
             color: #f7f3e0;
             padding: 10px 20px;
             border: none;
             border-radius: 5px;
-            font-weight: bold;
             cursor: pointer;
             transition: background-color 0.3s;
             text-decoration: none;  /* Quita subrayado del enlace */
         }
 
-        .back-button:hover {
+        .back-button:hover, .main-menu-button:hover {
             background-color: #5d4037;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
         }
 
         form {
@@ -124,7 +128,10 @@
 <body>
 <div class="header-container">
     <h1>Búsqueda de Libros</h1>
-    <a href="/" class="back-button">Volver a la página principal</a>
+    <div class="button-container">
+        <a href="/catalogoLibro" class="back-button">Volver atrás</a>
+        <a href="/" class="main-menu-button">Volver a la página principal</a>
+    </div>
 </div>
 
 <!-- Formulario de búsqueda -->

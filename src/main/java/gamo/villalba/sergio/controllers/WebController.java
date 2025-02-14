@@ -25,7 +25,7 @@ public class WebController {
     @RequestMapping(value = "/catalogoLibro")
     public String catalogoLibro(Model model) {
         model.addAttribute("listadoLibros", bookService.getBooks());
-        return "catalogo-libro";
+        return "book/catalogo-libro";
     }
 
     @GetMapping("/buscarLibros")
@@ -40,7 +40,7 @@ public class WebController {
 
         model.addAttribute("listadoLibros", resultadoBusqueda);
 
-        return "formulario-busqueda-book";
+        return "book/formulario-busqueda-book";
     }
 
     @GetMapping("/editarLibro/{id}")
@@ -50,7 +50,7 @@ public class WebController {
         if (libro.isPresent())
         {
             model.addAttribute("libro", libro.get());
-            return "formulario-edicion-book";
+            return "book/formulario-edicion-book";
         }
 
         return "redirect:/catalogoLibro";
@@ -65,7 +65,7 @@ public class WebController {
     @GetMapping("/crearLibro")
     public String mostrarFormularioCreacion(Model model) {
         model.addAttribute("libro", new BookModel());
-        return "formulario-creacion-book";
+        return "book/formulario-creacion-book";
     }
 
 
