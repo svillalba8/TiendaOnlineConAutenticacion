@@ -131,9 +131,20 @@
             text-decoration: underline;
         }
 
-        /* Add margin to the main buttons */
+        /* Contenedor para los botones */
+        .buttons-container {
+            display: flex;
+            justify-content: flex-start;
+            gap: 20px; /* Espacio entre los botones */
+            margin-bottom: 20px;
+        }
+
         .main-button {
             margin: 40px 20px 20px 20px; /* Más separación superior y lateral */
+        }
+
+        .back-button {
+            margin-left: auto; /* Empuja el botón al lado derecho */
         }
     </style>
 </head>
@@ -144,9 +155,17 @@
     <p>Descubre nuestra amplia selección de libros para todos los gustos.</p>
 </header>
 
-<div style="margin-bottom: 20px; text-align: center;">
+<!-- Contenedor para los botones -->
+<div class="buttons-container">
     <a th:href="@{/crearLibro}">
         <button class="button main-button" type="button">Añadir Nuevo Libro</button>
+    </a>
+    <a href="/buscarLibros">
+        <button class="button main-button" type="button">Buscar Libros</button>
+    </a>
+    <!-- Botón de Volver al Menú Principal -->
+    <a href="/" class="back-button">
+        <button class="button main-button" type="button">Volver al Menú Principal</button>
     </a>
 </div>
 
@@ -170,12 +189,6 @@
             </div>
         </div>
     </div>
-</div>
-
-<div style="text-align: center; margin-top: 30px;">
-    <a href="/" th:href="@{/}">
-        <button class="button main-button">Volver a la Página Principal</button>
-    </a>
 </div>
 
 <footer>

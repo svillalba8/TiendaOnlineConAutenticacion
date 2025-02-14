@@ -3,24 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <title>Crear Nuevo Libro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Merriweather:wght@700&display=swap" rel="stylesheet">
     <style>
-        .form-container { max-width: 600px; margin: 20px auto; padding: 20px; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; }
-        input { width: 100%; padding: 8px; }
-        .btn-container { display: flex; gap: 10px; margin-top: 15px; }
-        button { padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; }
-        .submit-btn { background-color: #4CAF50; color: white; }
-        .reset-btn { background-color: #FFC107; color: black; }
-        .cancel-btn { background-color: #F44336; color: white; }
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #faf3e0; /* Color crema claro */
+            color: #5d4037; /* Color marrón oscuro */
+            line-height: 1.6;
+        }
+
+        h1, h2 {
+            color: #5d4037; /* Color marrón oscuro */
+            font-family: 'Merriweather', serif;
+        }
+
+        /* Header */
+        header {
+            background-color: #8d6e63; /* Color marrón cálido */
+            color: white;
+            text-align: center;
+            padding: 60px 0;
+        }
+
+        header h1 {
+            font-size: 3.2em;
+            margin-bottom: 15px;
+        }
+
+        header p {
+            font-size: 1.2em;
+            font-weight: 400;
+        }
+
+        /* Form Container */
+        .form-container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Form Group */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1.1em;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 2px solid #8d6e63; /* Color marrón cálido */
+            border-radius: 4px;
+            font-size: 1em;
+        }
+
+        /* Buttons */
+        .btn-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+        }
+
+        .submit-btn {
+            background-color: #4CAF50; /* Verde */
+            color: white;
+            font-size: 1.1em;
+        }
+
+        .reset-btn {
+            background-color: #FFC107; /* Amarillo */
+            color: black;
+            font-size: 1.1em;
+        }
+
+        .cancel-btn {
+            background-color: #F44336; /* Rojo */
+            color: white;
+            font-size: 1.1em;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #3e2723; /* Color marrón oscuro */
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+            font-weight: 300;
+        }
+
+        footer a {
+            color: #faf3e0; /* Color crema claro */
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
-<div class="form-container">
+
+<header>
     <h1>Crear Nuevo Libro</h1>
+    <p>Completa los datos del libro para agregarlo a nuestro catálogo.</p>
+</header>
 
+<div class="form-container">
     <form th:action="@{/crearLibro}" th:object="${libro}" method="post">
-
         <div class="form-group">
             <label>Título:</label>
             <input type="text" th:field="*{title}" required>
@@ -53,8 +167,13 @@
                 <button type="button" class="cancel-btn">Cancelar</button>
             </a>
         </div>
-
     </form>
 </div>
+
+<footer>
+    <p>&copy; 2025 Tienda Online. Todos los derechos reservados.</p>
+    <p><a href="#">Política de privacidad</a> | <a href="#">Términos y condiciones</a></p>
+</footer>
+
 </body>
 </html>

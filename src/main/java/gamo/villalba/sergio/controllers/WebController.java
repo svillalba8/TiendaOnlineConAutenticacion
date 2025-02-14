@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Controller
@@ -25,6 +26,21 @@ public class WebController {
     public String catalogoLibro(Model model) {
         model.addAttribute("listadoLibros", bookService.getBooks());
         return "catalogo-libro";
+    }
+
+    @GetMapping("/buscarLibros")
+    public String buscarLibros(
+            @RequestParam(value = "title", required = false) String title,
+            @RequestParam(value = "author", required = false) String author,
+            @RequestParam(value = "isbn", required = false) String isbn,
+            @RequestParam(value = "publisher", required = false) String publisher,
+            Model model) {
+
+        ArrayList<BookModel> resultadoBusqueda = bookService.findBooks(title, author, isbn, publisher);
+
+        model.addAttribute("listadoLibros", resultadoBusqueda);
+
+        return "formulario-busqueda-book";
     }
 
     @GetMapping("/editarLibro/{id}")
