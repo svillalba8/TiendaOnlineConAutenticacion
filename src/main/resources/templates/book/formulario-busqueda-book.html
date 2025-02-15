@@ -5,7 +5,7 @@
     <title>Búsqueda de Libros</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Merriweather:wght@700&display=swap" rel="stylesheet">
     <style>
-        /* General Reset */
+
         * {
             margin: 0;
             padding: 0;
@@ -44,7 +44,7 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
-            text-decoration: none;  /* Quita subrayado del enlace */
+            text-decoration: none;
         }
 
         .back-button:hover, .main-menu-button:hover {
@@ -134,7 +134,6 @@
     </div>
 </div>
 
-<!-- Formulario de búsqueda -->
 <form th:action="@{/buscarLibros}" method="get">
     <label for="title">Título</label>
     <input type="text" id="title" name="title" placeholder="Buscar por título">
@@ -151,7 +150,6 @@
     <button type="submit">Buscar</button>
 </form>
 
-<!-- Tabla de resultados de búsqueda -->
 <table th:if="${listadoLibros != null && !listadoLibros.isEmpty()}">
     <thead>
     <tr>

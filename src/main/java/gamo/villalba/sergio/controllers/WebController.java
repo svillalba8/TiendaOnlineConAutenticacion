@@ -31,6 +31,7 @@ public class WebController {
         return "index";
     }
 
+    //CATALOGOS
     @RequestMapping(value = "/catalogoLibro")
     public String catalogoLibro(Model model) {
         model.addAttribute("listadoLibros", bookService.getBooks());
@@ -49,6 +50,7 @@ public class WebController {
         return "disc/catalogo-disco";
     }
 
+    //BUSQUEDAS
     @GetMapping("/buscarLibros")
     public String buscarLibros(
             @RequestParam(value = "title", required = false) String title,
@@ -92,6 +94,7 @@ public class WebController {
         return "disc/formulario-buscar-disc";
     }
 
+    //EDITOR
     @GetMapping("/editarLibro/{id}")
     public String mostrarFormularioEdicion(@PathVariable("id") long id, Model model) {
         Optional<BookModel> libro = bookService.getBookById(id);
@@ -147,6 +150,7 @@ public class WebController {
         return "redirect:/catalogoDisco";
     }
 
+    //CREADOR
     @GetMapping("/crearLibro")
     public String mostrarFormularioCreacion(Model model) {
         model.addAttribute("libro", new BookModel());
@@ -183,6 +187,7 @@ public class WebController {
         return "redirect:/catalogoDisco";
     }
 
+    //BORRADOR
     @PostMapping("/borrarLibro/{id}")
     public String deleteBook(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
