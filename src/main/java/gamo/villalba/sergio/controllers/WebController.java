@@ -2,8 +2,10 @@ package gamo.villalba.sergio.controllers;
 
 import gamo.villalba.sergio.enums.FormatMovie;
 import gamo.villalba.sergio.models.BookModel;
+import gamo.villalba.sergio.models.DiscModel;
 import gamo.villalba.sergio.models.MovieModel;
 import gamo.villalba.sergio.services.BookService;
+import gamo.villalba.sergio.services.DiscService;
 import gamo.villalba.sergio.services.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,8 @@ public class WebController {
     private BookService bookService;
     @Autowired
     private MovieService movieService;
+    @Autowired
+    private DiscService discService;
 
     @RequestMapping(value = "/")
     public String index() {
@@ -37,6 +41,12 @@ public class WebController {
     public String catalogoPeliculas(Model model) {
         model.addAttribute("listadoPeliculas", movieService.getMovies());
         return "movie/catalogo-pelicula";
+    }
+
+    @RequestMapping(value = "/catalogoDisco")
+    public String catalogoDisco(Model model) {
+        model.addAttribute("listadoDiscos", discService.getDiscs());
+        return "disc/catalogo-disco";
     }
 
     @GetMapping("/buscarLibros")
@@ -60,11 +70,26 @@ public class WebController {
                                   @RequestParam(value = "year", required = false) Integer year,
                                   @RequestParam(value = "director", required = false) String director,
                                   Model model) {
+
         ArrayList<MovieModel> resultadoBusqueda = movieService.findMovies(title, formatMovie, year, director);
 
         model.addAttribute("listadoPeliculas", resultadoBusqueda);
 
         return "movie/formulario-buscar-movie";
+    }
+
+    @GetMapping("/buscarDiscos")
+    public String buscarDiscos(@RequestParam(value = "title", required = false) String title,
+                               @RequestParam(value = "tracks", required = false) Integer tracks,
+                               @RequestParam(value = "author", required = false) String author,
+                               @RequestParam(value = "year", required = false) Integer year,
+                               Model model) {
+
+        ArrayList<DiscModel> resultadoBusqueda = discService.findDiscs(title, tracks, author, year);
+
+        model.addAttribute("listadoDiscos", resultadoBusqueda);
+
+        return "disc/formulario-buscar-disc";
     }
 
     @GetMapping("/editarLibro/{id}")
@@ -104,6 +129,24 @@ public class WebController {
         return "redirect:/catalogoPelicula";
     }
 
+    @GetMapping("/editarDisco/{id}")
+    public String mostrarFormularioDiscos(@PathVariable("id") long id, Model model) {
+        Optional<DiscModel> disco = discService.getDiscById(id);
+
+        if (disco.isPresent())
+        {
+            model.addAttribute("disco", disco.get());
+            return "disc/formulario-editar-disc";
+        }
+        return "redirect:/catalogoDisco";
+    }
+
+    @PostMapping("/editarDisco/{id}")
+    public String actualizarDisco(@PathVariable("id") long id, DiscModel discActualizada) {
+        discService.updateDisc(discActualizada);
+        return "redirect:/catalogoDisco";
+    }
+
     @GetMapping("/crearLibro")
     public String mostrarFormularioCreacion(Model model) {
         model.addAttribute("libro", new BookModel());
@@ -128,6 +171,18 @@ public class WebController {
         return "redirect:/catalogoPelicula";
     }
 
+    @GetMapping("/crearDisco")
+    public String mostrarFormularioCrearDisco(Model model) {
+        model.addAttribute("disco", new DiscModel());
+        return "disc/formulario-crear-disc";
+    }
+
+    @PostMapping("/crearDisco")
+    public String crearDisco(@ModelAttribute("disco") DiscModel disco) {
+        discService.addDisc(disco);
+        return "redirect:/catalogoDisco";
+    }
+
     @PostMapping("/borrarLibro/{id}")
     public String deleteBook(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
@@ -144,9 +199,20 @@ public class WebController {
         try {
             movieService.deleteMovie(id);
             redirectAttributes.addFlashAttribute("message", "Película eliminada con exito");
-        }  catch (Exception e) {
+        } catch (Exception e) {
             redirectAttributes.addFlashAttribute("message", "Hubo un problema al eliminar la película");
         }
         return "redirect:/catalogoPelicula";
+    }
+
+    @PostMapping("/borrarDisco/{id}")
+    public String deleteDisco(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            discService.deleteDiscById(id);
+            redirectAttributes.addFlashAttribute("message", "Disco eliminado con exito");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("message", "Hubo un problema al eliminar la disco");
+        }
+        return "redirect:/catalogoDisco";
     }
 }
