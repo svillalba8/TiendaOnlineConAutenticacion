@@ -11,11 +11,11 @@ public class MovieModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private long id;
-    String title;
-    FormatMovie format;
-    int year;
-    double price;
-    String director;
+    private String title;
+    private FormatMovie format;
+    private Integer year;
+    private double price;
+    private String director;
 
     public long getId() {
         return id;
@@ -37,15 +37,19 @@ public class MovieModel {
         return format;
     }
 
+    public String getFormatName() {
+        return format.getValue();
+    }
+
     public void setFormat(FormatMovie format) {
         this.format = format;
     }
 
-    public int getYear() {
+    public Integer getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(Integer year) {
         this.year = year;
     }
 

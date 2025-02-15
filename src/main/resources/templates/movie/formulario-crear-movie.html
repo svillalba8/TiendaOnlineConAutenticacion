@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Nueva Película</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #faf3e0; /* Color crema claro */
+            color: #5d4037; /* Color marrón oscuro */
+            line-height: 1.6;
+        }
+
+        h1, h2 {
+            color: #5d4037; /* Color marrón oscuro */
+            font-family: 'Merriweather', serif;
+        }
+
+        /* Header */
+        header {
+            background-color: #8d6e63; /* Color marrón cálido */
+            color: white;
+            text-align: center;
+            padding: 60px 0;
+        }
+
+        header h1 {
+            font-size: 3.2em;
+            margin-bottom: 15px;
+        }
+
+        header p {
+            font-size: 1.2em;
+            font-weight: 400;
+        }
+
+        /* Form Container */
+        .form-container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #8d6e63;
+            border-radius: 5px;
+            font-size: 1em;
+            margin-bottom: 10px;
+        }
+
+        input:focus, select:focus {
+            border-color: #3e2723;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .button {
+            background-color: #f7f3e0;
+            border: 2px solid #3e2723;
+            color: #3e2723;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #3e2723;
+            color: #f7f3e0;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #3e2723;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+            font-weight: 300;
+        }
+
+        footer a {
+            color: #faf3e0;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Crear Nueva Película</h1>
+    <p>Completa los datos de la película para agregarla a nuestro catálogo.</p>
+</header>
+
+<div class="form-container">
+    <form th:action="@{/crearPelicula}" th:object="${pelicula}" method="post">
+        <div class="form-group">
+            <label>Título:</label>
+            <input type="text" th:field="*{title}" required>
+        </div>
+
+        <div class="form-group">
+            <label>Director:</label>
+            <input type="text" th:field="*{director}" required>
+        </div>
+
+        <div class="form-group">
+            <label>Año:</label>
+            <input type="number" th:field="*{year}" min="1888" max="2025" required>
+        </div>
+
+        <div class="form-group">
+            <label>Formato:</label>
+            <select th:field="*{format}" required>
+                <option value="">Selecciona un formato</option>
+                <option value="BLU_RAY">Blu-Ray</option>
+                <option value="DVD">DVD</option>
+                <option value="DIGITAL">Digital</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Precio (€):</label>
+            <input type="number" th:field="*{price}" step="0.01" required>
+        </div>
+
+        <div class="button-group">
+            <button type="submit" class="button">Confirmar Creación</button>
+            <button type="reset" class="button">Limpiar Campos</button>
+            <a href="/catalogoPelicula" th:href="@{/catalogoPelicula}">
+                <button type="button" class="button">Cancelar</button>
+            </a>
+        </div>
+    </form>
+</div>
+
+<footer>
+    <p>&copy; 2025 Tienda Online. Todos los derechos reservados.</p>
+    <p><a href="#">Política de privacidad</a> | <a href="#">Términos y condiciones</a></p>
+</footer>
+
+</body>
+</html>

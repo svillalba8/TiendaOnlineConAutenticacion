@@ -24,12 +24,15 @@ public class MovieService {
     }
 
     public ArrayList<MovieModel> findMovies(String title, FormatMovie formatMovie,
-                                            int year, String director) {
+                                            Integer year, String director) {
+        if (year == null) year = 0;
+
+        Integer finalYear = year;
         return new ArrayList<>(getMovies().stream()
                 .filter(movie ->
                         (title == null || title.isEmpty() || movie.getTitle().toLowerCase().contains(title.toLowerCase())) &&
                         (formatMovie == null || movie.getFormat().equals(formatMovie)) &&
-                        (year== 0 ||year == movie.getYear()) &&
+                        (finalYear == 0 || finalYear.equals(movie.getYear())) &&
                         (director == null || director.isEmpty() || movie.getDirector().toLowerCase().contains(director.toLowerCase()))
                 ).toList());
     }

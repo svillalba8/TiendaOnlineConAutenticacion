@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Búsqueda de Películas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #faf3e0;
+            color: #5d4037;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2em;
+            font-family: 'Merriweather', serif;
+            margin-bottom: 20px;
+            color: #5d4037;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .back-button, .main-menu-button {
+            background-color: #8d6e63;
+            color: #f7f3e0;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+        }
+
+        .back-button:hover, .main-menu-button:hover {
+            background-color: #5d4037;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        form {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f7f3e0;
+            border: 1px solid #8d6e63;
+            border-radius: 10px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            color: #3e2723;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #8d6e63;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #8d6e63;
+            color: #f7f3e0;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #5d4037;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #8d6e63;
+        }
+
+        table th {
+            background-color: #8d6e63;
+            color: white;
+        }
+
+        table td {
+            background-color: #f7f3e0;
+        }
+
+        .delete-button {
+            background-color: #d32f2f;
+            color: white;
+        }
+
+        .delete-button:hover {
+            background-color: #b71c1c;
+        }
+    </style>
+</head>
+<body>
+<div class="header-container">
+    <h1>Búsqueda de Películas</h1>
+    <div class="button-container">
+        <a href="/catalogoPelicula" class="back-button">Volver atrás</a>
+        <a href="/" class="main-menu-button">Volver a la página principal</a>
+    </div>
+</div>
+
+<!-- Formulario de búsqueda -->
+<form th:action="@{/buscarPeliculas}" method="get">
+    <label for="title">Título</label>
+    <input type="text" id="title" name="title" placeholder="Buscar por título">
+
+    <label for="director">Director</label>
+    <input type="text" id="director" name="director" placeholder="Buscar por director">
+
+    <label for="year">Año</label>
+    <input type="text" id="year" name="year" placeholder="Buscar por año">
+
+    <label for="format">Formato</label>
+    <input type="text" id="format" name="format" placeholder="Buscar por formato">
+
+    <button type="submit">Buscar</button>
+</form>
+
+<!-- Tabla de resultados de búsqueda -->
+<table th:if="${listadoPeliculas != null && !listadoPeliculas.isEmpty()}">
+    <thead>
+    <tr>
+        <th>Título</th>
+        <th>Director</th>
+        <th>Año</th>
+        <th>Formato</th>
+        <th>Precio</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="movie : ${listadoPeliculas}">
+        <td th:text="${movie.title}"></td>
+        <td th:text="${movie.director}"></td>
+        <td th:text="${movie.year}"></td>
+        <td th:text="${movie.getFormatName()}"></td>
+        <td th:text="${#numbers.formatDecimal(movie.price, 1, 2) + ' €'}"></td>
+        <td>
+            <form th:action="@{/borrarPelicula/{id}(id=${movie.id})}" method="post" style="display: inline;">
+                <input type="hidden" name="_method" th:value="${movie.id}"/>
+                <button type="submit" class="delete-button" onclick="return confirm('¿Estás seguro de que deseas eliminar esta película?')">Eliminar</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

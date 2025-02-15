@@ -30,7 +30,6 @@ public class BookService {
                         (isbn == null || isbn.isEmpty() || book.getIsbn().equals(isbn)) &&
                         (publisher == null || publisher.isEmpty() || book.getPublisher().toLowerCase().contains(publisher.toLowerCase())))
                 .toList());
-
     }
 
     public BookModel addBook(BookModel book) {
