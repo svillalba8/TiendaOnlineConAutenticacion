@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="es">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,6 +30,7 @@
             color: white;
             text-align: center;
             padding: 60px 0;
+            position: relative;
         }
 
         header h1 {
@@ -40,6 +42,29 @@
         header p {
             font-size: 1.2em;
             font-weight: 400;
+        }
+
+        .header-buttons {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .header-buttons a {
+            background-color: #f7f3e0;
+            color: #3e2723;
+            padding: 10px 20px;
+            margin: 0 10px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 1em;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .header-buttons a:hover {
+            background-color: #3e2723;
+            color: #f7f3e0;
         }
 
         .main-section {
@@ -85,15 +110,6 @@
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
         }
 
-        .button {
-            background-color: transparent;
-            border: none;
-            cursor: pointer;
-            width: 100%;
-            height: 100%;
-            padding: 0;
-        }
-
         footer {
             background-color: #3e2723;
             color: white;
@@ -111,6 +127,45 @@
         footer a:hover {
             text-decoration: underline;
         }
+
+        .auth-info {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #f7f3e0;
+            color: #5d4037;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            border: 1px solid #d7ccc8;
+        }
+
+        .auth-info p {
+            margin: 0 0 10px 0;
+            font-size: 1em;
+            color: #5d4037;
+        }
+
+        .auth-info span {
+            font-weight: bold;
+        }
+
+        .logout-button {
+            background-color: #8d6e63;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .logout-button:hover {
+            background-color: #6d4c41;
+        }
+
     </style>
 </head>
 <body>
@@ -118,6 +173,22 @@
 <header>
     <h1>Bienvenido a VillalbaStore</h1>
     <p>Libros, Discos y Películas para Todos los Gustos</p>
+
+    <div class="header-buttons" sec:authorize="!isAuthenticated()">
+        <a href="/auth/signin">Iniciar sesión</a>
+        <a href="/auth/signup">Registrarse</a>
+    </div>
+
+    <div class="auth-info" sec:authorize="isAuthenticated()">
+        <p>
+            Logueado como: <span sec:authentication="name"></span>
+            <br>
+            Rol: <span th:text="${#authentication.principal.role}"></span>
+        </p>
+        <form th:action="@{/auth/logout}" method="post">
+            <button type="submit" class="logout-button">Cerrar sesión</button>
+        </form>
+    </div>
 </header>
 
 <div class="main-section">

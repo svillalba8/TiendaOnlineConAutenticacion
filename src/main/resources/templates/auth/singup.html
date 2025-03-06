@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro - Tienda Online</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilo reutilizado */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #faf3e0;
+            color: #5d4037;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        h1 {
+            font-family: 'Merriweather', serif;
+            color: #3e2723;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .form-container input,
+        .form-container select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 2px solid #3e2723;
+            font-size: 1em;
+        }
+
+        .form-container .button {
+            width: 100%;
+            background-color: #f7f3e0;
+            border: 2px solid #3e2723;
+            color: #3e2723;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .form-container .button:hover {
+            background-color: #3e2723;
+            color: #f7f3e0;
+        }
+
+        footer {
+            background-color: #3e2723;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+        }
+
+        footer a {
+            color: #faf3e0;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #f7f3e0;
+            color: #3e2723;
+            padding: 10px 20px;
+            border: 2px solid #3e2723;
+            border-radius: 5px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            background-color: #3e2723;
+            color: #f7f3e0;
+        }
+    </style>
+</head>
+<body>
+
+<a href="/" class="back-button">Volver</a>
+
+<header>
+    <h1>Registro - Tienda Online</h1>
+</header>
+
+<div class="form-container">
+    <form th:action="@{/auth/signup}" method="post" th:object="${signupDto}">
+        <input type="text" th:field="*{username}" placeholder="Nombre de usuario" required>
+        <input type="password" th:field="*{password}" placeholder="Contraseña" required>
+        <select th:field="*{role}">
+            <option value="USER">Usuario</option>
+            <option value="ADMIN">Administrador</option>
+        </select>
+        <button class="button" type="submit">Registrarse</button>
+    </form>
+</div>
+
+<footer>
+    <p>&copy; 2025 Tienda VillalbaStore. Todos los derechos reservados.</p>
+    <p><a href="#">Política de privacidad</a> | <a href="#">Términos y condiciones</a></p>
+</footer>
+
+</body>
+</html>

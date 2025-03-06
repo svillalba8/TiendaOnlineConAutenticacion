@@ -1,13 +1,26 @@
 package gamo.villalba.sergio.controllers;
 
+import gamo.villalba.sergio.config.auth.TokenProvider;
+import gamo.villalba.sergio.dtos.SignInDto;
+import gamo.villalba.sergio.dtos.SignUpDto;
 import gamo.villalba.sergio.enums.FormatMovie;
 import gamo.villalba.sergio.models.BookModel;
 import gamo.villalba.sergio.models.DiscModel;
 import gamo.villalba.sergio.models.MovieModel;
+import gamo.villalba.sergio.models.UserModel;
+import gamo.villalba.sergio.services.AuthService;
 import gamo.villalba.sergio.services.BookService;
 import gamo.villalba.sergio.services.DiscService;
 import gamo.villalba.sergio.services.MovieService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,13 +38,98 @@ public class WebController {
     private MovieService movieService;
     @Autowired
     private DiscService discService;
+    @Autowired
+    private AuthService authService;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private TokenProvider tokenProvider;
 
     @RequestMapping(value = "/")
     public String index() {
         return "index";
     }
 
-    //CATALOGOS
+    // REGISTRO E INCIO DE USUARIO
+
+    @GetMapping("/auth/signup")
+    public String showSignupForm(Model model) {
+        model.addAttribute("signupDto", new SignUpDto());
+        return "auth/singup";
+    }
+
+    @PostMapping("/auth/signup")
+    public String handleSignup(
+            @ModelAttribute("signupDto") SignUpDto signUpDto,
+            RedirectAttributes redirectAttributes) {
+
+        try {
+            authService.signUp(signUpDto);
+            redirectAttributes.addFlashAttribute("success", "¡Registro exitoso!");
+            return "redirect:/auth/signin";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            return "redirect:/auth/signup";
+        }
+    }
+
+    @GetMapping("/auth/signin")
+    public String showSignInForm(Model model) {
+        model.addAttribute("signinDto", new SignInDto());
+        return "auth/singin";
+    }
+
+    @PostMapping("/auth/signin")
+    public String handleSignIn(
+            @ModelAttribute("signinDto") SignInDto signinDto,
+            RedirectAttributes redirectAttributes,
+            HttpServletResponse response) {
+
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            signinDto.getUsername(),
+                            signinDto.getPassword()
+                    )
+            );
+
+            UserModel user = (UserModel) authentication.getPrincipal();
+
+            String token = tokenProvider.generateAccessToken(user);
+
+            Cookie jwtCookie = new Cookie("jwt", token);
+            jwtCookie.setHttpOnly(true);
+            jwtCookie.setPath("/");
+            jwtCookie.setMaxAge(2 * 60 * 60);
+            response.addCookie(jwtCookie);
+
+            redirectAttributes.addFlashAttribute("success", "¡Bienvenido!");
+            return "redirect:/";
+
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Credenciales inválidas");
+            return "redirect:/auth/signin";
+        }
+    }
+
+    @PostMapping("/auth/logout")
+    public String logout(HttpServletResponse response, HttpServletRequest request) {
+        SecurityContextHolder.clearContext();
+
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+
+        Cookie jwtCookie = new Cookie("jwt", null);
+        jwtCookie.setMaxAge(0);
+        jwtCookie.setPath("/");
+        response.addCookie(jwtCookie);
+
+        return "redirect:/";
+    }
+
+    // CATALOGOS
     @RequestMapping(value = "/catalogoLibro")
     public String catalogoLibro(Model model) {
         model.addAttribute("listadoLibros", bookService.getBooks());
